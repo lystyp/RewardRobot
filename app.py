@@ -1,8 +1,6 @@
 from random import choice
-
 from flask import Flask, request, abort
 import os
-
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -10,6 +8,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
+import model
 
 app = Flask(__name__)
 
@@ -176,4 +175,3 @@ def query_response(req):
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8000))
     app.run(host='0.0.0.0', port=port)
-
