@@ -32,8 +32,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
 # Init DB
 db.init_app(app)
-with app.app_context():
-    db.create_all()
 
 # Line object
 # Channel Access Token
@@ -166,8 +164,8 @@ def add_dialog(req, res):
 
 def delete_response(req, res):
     if Dialog.check_dialog_is_exist(req, res):
-        dialog = Dialog(req, res)
-        dialog.delete_response()
+        # dialog = Dialog(req, res)
+        Dialog.delete_response(req, res)
         return "刪除完成"
     return "找不到這個回答QAQ"
 
@@ -200,6 +198,37 @@ def query_response(req):
         s = s + "<" + i[0] + "> "
     return s
 
+
+def run_test():
+    # Init case
+    add_dialog("1", "1!")
+    add_dialog("2", "2!")
+    add_dialog("3", "3!")
+    add_dialog("4", "4!")
+    add_dialog("5", "5!")
+
+    # 重複新增case
+    print("重複新增case")
+    print(add_dialog("asd", "asd"))
+    print(add_dialog("asd", "asd"))
+    print("-------------------------------")
+
+    # 重複刪除回應case
+    print("重複刪除回應case")
+    print(delete_response("asd", "asd"))
+    print(delete_response("asd", "asd"))
+    print("-------------------------------")
+
+    # 重複刪除問句case
+    print("重複刪除問句case")
+    print(delete_request("asd"))
+    print(delete_request("asd"))
+    print("-------------------------------")
+
+
+with app.app_context():
+    print("測試!")
+    print(delete_response("1", "1!"))
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8000))

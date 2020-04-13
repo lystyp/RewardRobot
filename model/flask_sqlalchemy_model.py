@@ -23,9 +23,6 @@ class Dialog(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def delete_response(self):
-        db.session.delete(self)
-        db.session.commit()
 
     @classmethod
     def check_dialog_is_exist(cls, request, response):
@@ -48,4 +45,17 @@ class Dialog(db.Model):
     def delete_request(cls, request):
         # 應該要有別的比較漂亮的方法才對!!!
         db.session.query(cls).filter(cls.request == request).delete()
+        db.session.commit()
+
+    # TODO
+    # 有一個bug但我解不出來，只用奇怪的解法
+    # https://stackoverflow.com/questions/26597755/invalidrequesterror-instance-user-at-0x7f65938a7510-is-not-persisted
+    # def delete_response(self):
+    #     db.session.delete(self)
+    #     db.session.commit()
+
+    @classmethod
+    def delete_response(cls, request, response):
+        # 應該要有別的比較漂亮的方法才對!!!
+        db.session.query(cls).filter(cls.request == request, cls.response == response).delete()
         db.session.commit()
