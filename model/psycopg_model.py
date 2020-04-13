@@ -1,14 +1,13 @@
 import os
 import psycopg2
 
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, create_engine
-from sqlalchemy.orm import sessionmaker
+import debug_vars
 
 APP_NAME = "daniel-reward-bot"
 TABLE_NAME = '\'dialog\''
-# DATABASE_URL = os.environ.get('DATABASE_URL')
-DATABASE_URL = "postgres://jvzcophjjmmtrw:e55849bcd059162ab48a1432b82c66dae07cb3aeeb6b14b22ca24f7b7c97143c@ec2-54-159-112-44.compute-1.amazonaws.com:5432/duiro8fleg79"
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if debug_vars.dict_vars:
+    DATABASE_URL = debug_vars.dict_vars["DATABASE_URL"]
 
 
 class DialogModel:
@@ -46,46 +45,6 @@ class DialogModel:
         return rows
 
 
-Base = declarative_base()
-
-
-# 這裡宣告class，所有繼承base的class都會在base裡面註冊一個table，所以class的靜態變數__tablename__是必備的
-class User(Base):
-    __tablename__ = 'dialog2'
-    request = Column(String, primary_key=True)
-    response = Column(String, nullable=False)
-
-
-class User2(Base):
-    __tablename__ = 'dialog3'
-    request = Column(String, primary_key=True)
-    response = Column(String, nullable=False)
-
-#
-# engine = create_engine(DATABASE_URL)
-#
-# # 這一行應該是base會根據engine去找前面註冊過的table，如果有就match一下，沒有就create一個
-# Base.metadata.create_all(engine)
-#
-# DBSession = sessionmaker(bind=engine)
-# session = DBSession()
-
-
-class A:
-    a = 100
-
 if __name__ == "__main__":
+    pass
 
-    a = A()
-    b = A()
-    print(A.a)
-    print(a.a)
-    print(b.a)
-    A.a = 999
-    print(A.a)
-    print(a.a)
-    print(b.a)
-    a.a = 222
-    print(A.a)
-    print(a.a)
-    print(b.a)

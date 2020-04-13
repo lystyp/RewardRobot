@@ -1,3 +1,5 @@
+sqlalchemy
 line-bot-sdk
 Flask
 psycopg2
+flask_sqlalchemy
